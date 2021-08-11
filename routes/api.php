@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::post('/send/signup-mail' , 'UsersController@sendSignUpMail');
+Route::post('/base-register' , 'UsersController@BaseRegister');
+Route::post('/final-register' , 'UsersController@FinalRegister');
+
+Route::post('/login','UsersController@login');
+
+Route::middleware('auth:api')->group(function ()
+{
+    Route::delete('/logout','UsersController@logout');
+    Route::post('/update/{id}','UsersController@Update');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });

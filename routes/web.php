@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login' , function(){
+    $info['status_code'] = '0';
+    $info['status_text'] = 'failed';
+    $info['message'] = 'UnAuthenticated';
+    return response($info,401);
+})->name('login');

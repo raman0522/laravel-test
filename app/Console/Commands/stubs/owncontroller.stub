@@ -1,0 +1,87 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespaceHttp\Controllers\Controller;
+use Illuminate\Http\Request;
+use Validator;
+use App\Traits\Reply;
+
+
+class DummyClass extends Controller
+{
+    # use Reply ;
+
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(),$this->rules(),$this->custom_message(),$this->nick_names());
+        if ($validator->errors()->all())        {     return $this->failed($validator->errors()->first());     }
+
+        return Model::create($request->all()) ? $this->success('Model Created Successfully.') : $this->failed('Unable to create at this moment.');
+
+    }
+
+    public function update(Request $request,$id)
+    {
+        $model = Model::Find($id);
+        if(!$model)   {   return $this->failed('Invalid Data');    }
+
+        $validator = Validator::make($request->all(),$this->rules($id),$this->custom_message(),$this->nick_names());
+        if ($validator->errors()->all())        {     return $this->failed($validator->errors()->first());     }
+
+        return $model->update($request->all()) ? $this->success('Model Updated Successfully.') : $this->failed('Unable to update at this moment.');
+
+    }
+
+    public function delete($id)
+    {
+        $model = Model::Find($id);
+        if(!$model)   {   return $this->failed('Invalid Data');    }
+
+        return $model->delete() ? $this->success('Model Deleted Successfully.') : $this->failed('Unable to delete at this moment.');
+    }
+
+    public function get()
+    {
+        $data = Model::get();
+        return $this->success('Model Fetched Successfully',$data);
+    }
+
+    public function rules($id = null,$request = null)
+    {
+        $rule = [
+
+           // 'name'      => 'required|string|max:100|min:2',
+           // 'mobile'    => 'digits:10|numeric|unique:table,column',
+           // 'email'     => 'email|unique:table,column',
+        ];
+
+        if($id != null)
+        {
+           // $rule['email'] = 'email|unique:table,column,'.$id;
+           // $rule['mobile'] = 'digits:10|numeric|unique:table,column,'.$id;
+        }
+
+        return $rule;
+    }
+
+    public function custom_message()
+    {
+        return [];
+    }
+
+    public function nick_names()
+    {
+        return [];
+    }
+
+    //Generated Route
+
+    // Route::prefix('prefix_here')->group(function ()
+    // {
+    //     Route::post   ('/create',         'DummyClass@create');
+    //     Route::put    ('/update/{id}',    'DummyClass@update');
+    //     Route::delete ('/delete/{id}',    'DummyClass@delete');
+    //     Route::get    ('/get',            'DummyClass@get');
+    // });
+}

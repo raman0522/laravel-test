@@ -1,0 +1,73 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+
+class DummyClass extends Model
+{
+    protected $fillable = [
+
+    ];
+
+    protected $hidden = [
+
+    ];
+
+    // *************************************************//
+    //              Getter And Setters                  //
+    // *************************************************//
+
+    # public function setYourkeyNameAttribute($value)
+    # {
+    #     $this->attributes['YourkeyName'] =  date('Y-m-d', strtotime($value));
+    # }
+
+    # public function getYourkeyNameAttribute($value)
+    # {
+    #     return date('d M Y', strtotime($value));
+    # }
+
+    // *************************************************//
+    //                  Relationships                   //
+    // *************************************************//
+
+    # public function FunctionName()
+    # {
+    #     return $this->hasOne(ModelName::class);
+    # }
+
+    // *************************************************//
+    //              Additional Keys                     //
+    // *************************************************//
+
+    # public function getDesignationViewAttribute()
+    # {
+    #     $data = Designation::Find($this->designation_id);
+    #     return !$data ? "" : $data['title'] ;
+    # }
+
+
+    // *************************************************//
+    //              To Array Function                   //
+    // *************************************************//
+
+    # public function toArray()
+    # {
+    #     $array = parent::toArray();
+    #     $array['designation_view'] = $this->{'designation_view'};
+    #     return $array;
+    # }
+
+    # public function toArray()
+    # {
+    #         $array = parent::toArray();
+    #         foreach ($this->getMutatedAttributes() as $key)
+    #         {
+    #             if ( ! array_key_exists($key, $array)) {
+    #                 $array[$key] = $this->{$key};
+    #             }
+    #         }
+    #         return $array;
+    # }
+}

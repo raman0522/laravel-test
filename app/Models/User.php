@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens,HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,8 +20,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'user_name',
+        'avatar',
         'email',
         'password',
+        'user_role',
+        'registered_otp',
+        'registered_at',
     ];
 
     /**
@@ -29,7 +36,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'is_active'
     ];
 
     /**
@@ -38,6 +45,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'registered_at' => 'datetime',
     ];
+
+    // *************************************************//
+    //              Getter And Setters                  //
+    // *************************************************//
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] =  Hash::make($value);
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        $base_url =   url('/');
+        return $value != '' ? $base_url.'/'.$value : '';
+    }
 }
