@@ -69,7 +69,7 @@ trait Reply
                 "name": "'.$from_name.'"
             },
         }';
- 
+
         # Start Curl Request
         $curl = curl_init();
 
@@ -99,9 +99,7 @@ trait Reply
     {
         if($type == 'signup')
         {
-            return "<h1>SignUp Link to redirect user will be shown here</h1>
-                    <p>Currently I am Just making the apis so no link will be made. </p>
-                    <h4>Use Base register api for further flow</h4>";
+            return "<h1>SignUp Link to redirect user will be shown here</h1><p>Currently I am Just making the apis so no link will be made. </p><h4>Use Base register api for further flow</h4>";
         }
         
         return "<h1>Your Register Otp Is : ".$otp."</h1><p>Use register api to register successfully</p>";
