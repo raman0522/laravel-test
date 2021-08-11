@@ -29,7 +29,7 @@ class UsersController extends Controller
         if ($validator->errors()->all())        {     return $this->failed($validator->errors()->first());     }
 
         $sendmail = $this->send_mail('signup',$request->email , $this->from_email,$this->from_name);
-        return $sendmail == 202 ? $this->success('Sign-up Email Sent') : $this->failed('Unable to send mail at this moment'); 
+        return $sendmail == 200 ? $this->success('Sign-up Email Sent') : $this->failed('Unable to send mail at this moment'); 
     }
 
     public function BaseRegister(Request $request)
@@ -52,7 +52,7 @@ class UsersController extends Controller
         ]);
 
        $sendmail = $this->send_mail('otp',$request->email , $this->from_email,$this->from_name , $otp);
-       return $sendmail == 202 ? $this->success('Otp sent on your email') : $this->failed('Unable to send otp on mail at this moment'); 
+       return $sendmail == 200 ? $this->success('Otp sent on your email') : $this->failed('Unable to send otp on mail at this moment'); 
     }
 
     public function FinalRegister(Request $request)
@@ -110,7 +110,6 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|exists:users,email',
             'password' => 'required|min:6'

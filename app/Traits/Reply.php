@@ -42,8 +42,8 @@ trait Reply
         $imageurl = 'image/'.$name;
         return $imageurl;
     }
-
-    public function send_mail($type,$email,$from_email,$from_name,$otp=null)
+    # Due to account under review the sendgrid is not wokring otherwise code ois working
+    public function send_mail2($type,$email,$from_email,$from_name,$otp=null)
     {
 
         $subject = $type == 'signup' ? 'SignUp!' : 'Register Otp!';
@@ -106,4 +106,54 @@ trait Reply
         
         return "<h1>Your Register Otp Is : ".$otp."</h1><p>Use register api to register successfully</p>";
     }
+
+    public function send_mail($type,$email,$from_email,$from_name,$otp=null)
+    {
+        $subject = $type == 'signup' ? 'SignUp!' : 'Register Otp!';
+
+            $url = 'https://api.mailjet.com/v3.1/send';
+
+           $body = [
+                'Messages' => [
+                    [
+                        'From' => [
+                            'Email' => 'ramandeep.singh.goteso@gmail.com',
+                            'Name' => 'Ramandeep'
+                        ],
+                        'To' => [
+                            [
+                                'Email' => $email,
+                            ]
+                        ],
+                        'Subject' => $subject,
+                        'TextPart' => "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
+                        'HTMLPart' => $this->mail_content($type,$otp),
+                    ]
+                ]
+            ];
+
+            $ch = curl_init();
+            
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($body));
+            
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_USERPWD,'e253a8220b96ac4c94db9c9e9d98269d:315b0f363fcea9737d61d71c51b43517');
+            $response = curl_exec($ch);
+            $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErrorNumber = curl_errno($ch);
+            $curlErrorMessage = curl_error($ch);
+            curl_close($ch);
+            return $responseCode;
+            // return array('response' => $response, 'code' => $responseCode);
+
+    }
+   
+
 }
+
+
